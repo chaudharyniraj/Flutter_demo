@@ -12,90 +12,76 @@ class _CalculationState extends State<Calculation> {
   double firstNumber = 0.0;
   double secondNumber = 0.0;
   String operator = "";
-  var result;
+  var result = 0.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Calculator Demo'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Center(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter First Number',
-                    labelText: 'Number 1',
-                  ),
-                  onChanged: (value) {
-                    firstNumber = double.parse(value);
-                    // print(firstNumber);
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text('Select an operator'),
-                operatorFunction(),
-                Text(
-                  '$operator',
-                  style: const TextStyle(fontSize: 20, color: Colors.black),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter Second Number',
-                    labelText: 'Number 2',
-                  ),
-                  onChanged: (value) {
-                    secondNumber = double.parse(value);
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextButton(
-                    onPressed: () {
-                      setState(() {
-                        result = result;
-                      });
-                      result = Logic()
-                          .calculation(firstNumber, secondNumber, operator);
-                    },
-                    child: const Text(
-                      'submit',
-                      style: TextStyle(fontSize: 20, color: Colors.blue),
-                    )),
-                Text(
-                  '$result',
-                  style: const TextStyle(fontSize: 20, color: Colors.blue),
-                )
-              ],
+        appBar: AppBar(
+          title: const Text('Calculator Demo'),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Center(
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  firstInputNumber(),
+                  maintainSpace(),
+                  const Text('Select an operator'),
+                  selectOperatorFunction(),
+                  showSelectedOperator(),
+                  maintainSpace(),
+                  secondInputNumber(),
+                  maintainSpace(),
+                  submitButton(),
+                  maintainSpace(),
+                  showResult()
+                ],
+              ),
             ),
           ),
         ),
+        floatingActionButton: clearButton());
+  }
+
+  Widget firstInputNumber() {
+    return TextField(
+      textAlign: TextAlign.center,
+      decoration: const InputDecoration(
+        hintText: 'Enter First Number',
+        labelText: 'Number 1',
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Calculation()),
-          );
-        },
-        child: Text('clear'),
-      ),
+      onChanged: (value) {
+        firstNumber = double.parse(value);
+        // print(firstNumber);
+      },
+      keyboardType: TextInputType.number,
     );
   }
 
-  Widget operatorFunction() {
+  Widget secondInputNumber() {
+    return TextField(
+      textAlign: TextAlign.center,
+      decoration: const InputDecoration(
+        hintText: 'Enter Second Number',
+        labelText: 'Number 2',
+      ),
+      onChanged: (value) {
+        secondNumber = double.parse(value);
+      },
+      keyboardType: TextInputType.number,
+    );
+  }
+
+  Widget maintainSpace() {
+    return const SizedBox(
+      height: 20,
+    );
+  }
+
+  Widget selectOperatorFunction() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
@@ -152,6 +138,57 @@ class _CalculationState extends State<Calculation> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             )),
+      ],
+    );
+  }
+
+  Widget submitButton() {
+    return TextButton(
+        onPressed: () {
+          setState(() {
+            result = result;
+          });
+          result = Logic().calculation(firstNumber, secondNumber, operator);
+        },
+        autofocus: true,
+        child: const Text(
+          'submit',
+          style: TextStyle(fontSize: 20, color: Colors.green),
+        ));
+  }
+
+  Widget showSelectedOperator() {
+    return Text(
+      operator,
+      style: const TextStyle(fontSize: 40, color: Colors.black),
+    );
+  }
+
+  Widget clearButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Calculation()),
+        );
+      },
+      child: const Text('clear'),
+    );
+  }
+
+  Widget showResult() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        const Text(
+          'Answer: ',
+          style: TextStyle(fontSize: 20, color: Colors.amber),
+        ),
+        Text(
+          '$result',
+          style: const TextStyle(fontSize: 20, color: Colors.blue),
+        )
       ],
     );
   }
