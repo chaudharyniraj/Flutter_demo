@@ -160,7 +160,7 @@ class _CalculationState extends State<Calculation> {
   Widget showSelectedOperator() {
     return Text(
       operator,
-      style: const TextStyle(fontSize: 40, color: Colors.black),
+      style: const TextStyle(fontSize: 30, color: Colors.black),
     );
   }
 
