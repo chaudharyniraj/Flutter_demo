@@ -12,4 +12,11 @@ class Logic {
     }
     return result;
   }
+
+  String checkOperator(operator) {
+    if (operator == "") {
+      operator = "Plz setect the operator";
+    }
+    return operator;
+  }
 }

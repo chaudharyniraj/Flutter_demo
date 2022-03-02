@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 class Calculation extends StatefulWidget {
   const Calculation({Key? key}) : super(key: key);
-
   @override
   _CalculationState createState() => _CalculationState();
 }
@@ -143,17 +142,22 @@ class _CalculationState extends State<Calculation> {
   }
 
   Widget submitButton() {
-    return TextButton(
+    return MaterialButton(
+        color: Colors.green,
+        textColor: Colors.white,
         onPressed: () {
           setState(() {
             result = result;
+            operator = operator;
           });
           result = Logic().calculation(firstNumber, secondNumber, operator);
+          operator = Logic().checkOperator(operator);
         },
-        autofocus: true,
         child: const Text(
           'submit',
-          style: TextStyle(fontSize: 20, color: Colors.green),
+          style: TextStyle(
+            fontSize: 20,
+          ),
         ));
   }
 
