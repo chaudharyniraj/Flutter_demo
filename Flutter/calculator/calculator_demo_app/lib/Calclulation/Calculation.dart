@@ -11,8 +11,10 @@ class _CalculationState extends State<Calculation> {
   double firstNumber = 0.0;
   double secondNumber = 0.0;
   String operator = "";
+  // bool checkTextField = true;
   var result = 0.0;
   var arithematicCalculation;
+  // var textController;
 
   @override
   void initState() {
@@ -20,6 +22,14 @@ class _CalculationState extends State<Calculation> {
     // TODO: implement initState
     super.initState();
     arithematicCalculation = ArithematicCalculation();
+    // textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // ignore: todo
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -65,6 +75,7 @@ class _CalculationState extends State<Calculation> {
   Widget designFirstInputNumber() {
     return TextField(
       textAlign: TextAlign.center,
+      controller: TextEditingController(text: firstNumber.toString()),
       decoration: const InputDecoration(
         hintText: 'Enter First Number',
         labelText: 'Number 1',
@@ -80,6 +91,7 @@ class _CalculationState extends State<Calculation> {
   Widget designSecondInputNumber() {
     return TextField(
       textAlign: TextAlign.center,
+      controller: TextEditingController(text: secondNumber.toString()),
       decoration: const InputDecoration(
         hintText: 'Enter Second Number',
         labelText: 'Number 2',
@@ -100,7 +112,6 @@ class _CalculationState extends State<Calculation> {
               setState(() {
                 operator = '+';
               });
-              // result = Logic().calculation(firstNumber, secondNumber, operator);
             },
             child: const Text(
               '+',
@@ -114,7 +125,6 @@ class _CalculationState extends State<Calculation> {
               setState(() {
                 operator = '-';
               });
-              // result = Logic().calculation(firstNumber, secondNumber, operator);
             },
             child: const Text(
               '-',
@@ -126,7 +136,6 @@ class _CalculationState extends State<Calculation> {
               setState(() {
                 operator = '*';
               });
-              // result = Logic().calculation(firstNumber, secondNumber, operator);
             },
             child: const Text(
               '*',
@@ -182,6 +191,7 @@ class _CalculationState extends State<Calculation> {
     return FloatingActionButton(
       onPressed: () {
         setState(() {
+          // checkTextField = false;
           firstNumber = 0.0;
           secondNumber = 0.0;
           operator = "";
