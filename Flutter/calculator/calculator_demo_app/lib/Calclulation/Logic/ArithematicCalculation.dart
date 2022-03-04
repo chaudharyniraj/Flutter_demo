@@ -1,5 +1,5 @@
-class Logic {
-  double calculation(firstNumber, secondNumber, operator) {
+class ArithematicCalculation {
+  double calculate(firstNumber, secondNumber, operator) {
     double result = 0.0;
     if (operator == '+') {
       result = firstNumber + secondNumber;
@@ -15,7 +15,7 @@ class Logic {
 
   String checkOperator(operator) {
     if (operator == "") {
-      operator = "Plz setect the operator";
+      operator = "please select the operator";
     }
     return operator;
   }

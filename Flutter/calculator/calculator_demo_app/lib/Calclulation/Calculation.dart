@@ -1,4 +1,4 @@
-import 'package:calculator_demo_app/Calclulation/Logic/Logic.dart';
+import 'package:calculator_demo_app/Calclulation/Logic/ArithematicCalculation.dart';
 import 'package:flutter/material.dart';
 
 class Calculation extends StatefulWidget {
@@ -12,6 +12,15 @@ class _CalculationState extends State<Calculation> {
   double secondNumber = 0.0;
   String operator = "";
   var result = 0.0;
+  var arithematicCalculation;
+
+  @override
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    arithematicCalculation = ArithematicCalculation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,26 +35,34 @@ class _CalculationState extends State<Calculation> {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  firstInputNumber(),
-                  maintainSpace(),
+                  designFirstInputNumber(),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const Text('Select an operator'),
-                  selectOperatorFunction(),
-                  showSelectedOperator(),
-                  maintainSpace(),
-                  secondInputNumber(),
-                  maintainSpace(),
-                  submitButton(),
-                  maintainSpace(),
-                  showResult()
+                  designChooseOperator(),
+                  designViewSelectedOperator(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  designSecondInputNumber(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  designSubmitButton(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  designViewResult()
                 ],
               ),
             ),
           ),
         ),
-        floatingActionButton: clearButton());
+        floatingActionButton: designClearButton());
   }
 
-  Widget firstInputNumber() {
+  Widget designFirstInputNumber() {
     return TextField(
       textAlign: TextAlign.center,
       decoration: const InputDecoration(
@@ -60,7 +77,7 @@ class _CalculationState extends State<Calculation> {
     );
   }
 
-  Widget secondInputNumber() {
+  Widget designSecondInputNumber() {
     return TextField(
       textAlign: TextAlign.center,
       decoration: const InputDecoration(
@@ -74,13 +91,7 @@ class _CalculationState extends State<Calculation> {
     );
   }
 
-  Widget maintainSpace() {
-    return const SizedBox(
-      height: 20,
-    );
-  }
-
-  Widget selectOperatorFunction() {
+  Widget designChooseOperator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
@@ -141,17 +152,16 @@ class _CalculationState extends State<Calculation> {
     );
   }
 
-  Widget submitButton() {
+  Widget designSubmitButton() {
     return MaterialButton(
         color: Colors.green,
         textColor: Colors.white,
         onPressed: () {
           setState(() {
-            result = result;
-            operator = operator;
+            result = arithematicCalculation.calculate(
+                firstNumber, secondNumber, operator);
+            operator = arithematicCalculation.checkOperator(operator);
           });
-          result = Logic().calculation(firstNumber, secondNumber, operator);
-          operator = Logic().checkOperator(operator);
         },
         child: const Text(
           'submit',
@@ -161,27 +171,28 @@ class _CalculationState extends State<Calculation> {
         ));
   }
 
-  Widget showSelectedOperator() {
+  Widget designViewSelectedOperator() {
     return Text(
       operator,
       style: const TextStyle(fontSize: 30, color: Colors.black),
     );
   }
 
-  Widget clearButton() {
+  Widget designClearButton() {
     return FloatingActionButton(
       onPressed: () {
-        Navigator.of(context).pop();
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Calculation()),
-        );
+        setState(() {
+          firstNumber = 0.0;
+          secondNumber = 0.0;
+          operator = "";
+          result = 0.0;
+        });
       },
       child: const Text('clear'),
     );
   }
 
-  Widget showResult() {
+  Widget designViewResult() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
