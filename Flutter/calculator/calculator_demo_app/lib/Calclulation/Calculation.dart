@@ -45,34 +45,34 @@ class _CalculationState extends State<Calculation> {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  designFirstInputNumber(),
+                  buildFirstInputNumber(),
                   const SizedBox(
                     height: 20,
                   ),
                   const Text('Select an operator'),
-                  designChooseOperator(),
-                  designViewSelectedOperator(),
+                  buildChooseOperator(),
+                  buildViewSelectedOperator(),
                   const SizedBox(
                     height: 20,
                   ),
-                  designSecondInputNumber(),
+                  buildSecondInputNumber(),
                   const SizedBox(
                     height: 20,
                   ),
-                  designSubmitButton(),
+                  buildSubmitButton(),
                   const SizedBox(
                     height: 20,
                   ),
-                  designViewResult()
+                  buildViewResult()
                 ],
               ),
             ),
           ),
         ),
-        floatingActionButton: designClearButton());
+        floatingActionButton: buildClearButton());
   }
 
-  Widget designFirstInputNumber() {
+  Widget buildFirstInputNumber() {
     return TextField(
       textAlign: TextAlign.center,
       controller: TextEditingController(text: firstNumber.toString()),
@@ -81,14 +81,18 @@ class _CalculationState extends State<Calculation> {
         labelText: 'Number 1',
       ),
       onChanged: (value) {
-        firstNumber = double.parse(value);
+        if (value.isEmpty) {
+          firstNumber = 0.0;
+        } else {
+          firstNumber = double.parse(value);
+        }
         // print(firstNumber);
       },
       keyboardType: TextInputType.number,
     );
   }
 
-  Widget designSecondInputNumber() {
+  Widget buildSecondInputNumber() {
     return TextField(
       textAlign: TextAlign.center,
       controller: TextEditingController(text: secondNumber.toString()),
@@ -97,13 +101,17 @@ class _CalculationState extends State<Calculation> {
         labelText: 'Number 2',
       ),
       onChanged: (value) {
-        secondNumber = double.parse(value);
+        if (value.isEmpty) {
+          secondNumber = 0.0;
+        } else {
+          secondNumber = double.parse(value);
+        }
       },
       keyboardType: TextInputType.number,
     );
   }
 
-  Widget designChooseOperator() {
+  Widget buildChooseOperator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
@@ -161,7 +169,7 @@ class _CalculationState extends State<Calculation> {
     );
   }
 
-  Widget designSubmitButton() {
+  Widget buildSubmitButton() {
     return MaterialButton(
         color: Colors.green,
         textColor: Colors.white,
@@ -180,14 +188,14 @@ class _CalculationState extends State<Calculation> {
         ));
   }
 
-  Widget designViewSelectedOperator() {
+  Widget buildViewSelectedOperator() {
     return Text(
       operator,
       style: const TextStyle(fontSize: 30, color: Colors.black),
     );
   }
 
-  Widget designClearButton() {
+  Widget buildClearButton() {
     return FloatingActionButton(
       onPressed: () {
         setState(() {
@@ -202,7 +210,7 @@ class _CalculationState extends State<Calculation> {
     );
   }
 
-  Widget designViewResult() {
+  Widget buildViewResult() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
